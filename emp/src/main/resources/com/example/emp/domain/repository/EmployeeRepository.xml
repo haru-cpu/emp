@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="com.example.emp.domain.repository.EmployeeRepository">
+    
+    	<resultMap id="employeeResultMap" type="EmployeeBean">
+    		<id property="id" column="id" />
+    		<result property="name" column="name" />
+    		<result property="kana" column="kana" />
+    		<result property="email" column="email" />
+    	</resultMap>
+    	
+    <select id="findAll" parameterType="String" resultMap="employeeResultMap">
+        SELECT
+            id,
+            name,
+            kana,
+            email
+        FROM
+            emp
+        ORDER BY id
+    </select>
+    
+    <select id="findById" resultMap="employeeResultMap">
+    <![CDATA[
+        SELECT
+            id,
+            name,
+            kana,
+            email
+        FROM
+            emp
+        WHERE
+            id = #{id}
+    ]]>
+    </select>
+    
+    <select id="findByKana" resultMap="employeeResultMap">
+    <![CDATA[
+        SELECT
+            id,
+            name,
+            kana,
+            email
+        FROM
+            emp
+        WHERE
+            kana LIKE CONCAT('%', #{kana}, '%')
+    ]]>
+    </select>
+    
+    <insert id="insert" parameterType="EmployeeBean">
+    <![CDATA[
+        INSERT INTO emp
+        (
+            id,
+            name,
+            kana,
+            email
+        )
+        VALUES
+        (
+            #{id},
+            #{name},
+            #{kana},
+            #{email}
+        )
+    ]]>
+    </insert>
+    
+    <update id="update" parameterType="EmployeeBean">
+        UPDATE emp
+        SET
+            name = #{name},
+            kana = #{kana},
+            email = #{email}
+      
+        WHERE
+            id = #{id}
+   
+    </update>
+    
+    </mapper>
